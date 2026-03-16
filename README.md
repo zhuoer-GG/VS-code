@@ -1,2 +1,2 @@
-# VS2022
-early learning about codes
+# VS-code
+codes-learning
