@@ -1,0 +1,155 @@
+// 索引器是一种特殊的属性，它允许像访问其内部集合的数组一样访问类或结构。
+// C#允许我们定义自定义索引器，通用索引器以及重载索引器。
+
+class StringDataStore
+{
+    private string[] strArr = new string[10]; // 内部数据存储
+
+    public string this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= strArr.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+                return strArr[index];
+        }
+
+        set
+        {
+            if (index < 0 ||  index >= strArr.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+            strArr[index] = value;
+        }
+    }
+}
+
+// 上面的 StringDataStore 类为其私有数组strArr定义了一个索引器。
+// 现在，您可以像使用数组一样使用 StringDataStore 从 strArr 添加和检索字符串值，如下所示。
+
+// StringDataStore strStore = new StringDataStore();
+
+// strStore[0] = "One";
+// strStore[1] = "Two";
+// strStore[2] = "Three";
+// strStore[3] = "Four";
+
+// for(int i = 0; i < 10 ; i++)
+//     Console.WriteLine(strStore[i]);
+
+// 从 C# 7开始，可以对 get 和 set 使用表达式体语法。
+// 示例：set 和 get 索引器
+class StringDataStore
+{
+    private string[] strArr = new string[10]; // 内部数据存储
+
+    public string this[int index]
+    {
+        get => strArr[index];
+
+        set => strArr[index] = value;
+    }
+}
+
+// 索引器也可以是泛型。 下面的泛型类包括泛型索引器。
+class DataStore<T>
+{
+    private T[] store; 
+
+    public DataStore()
+    {
+        store = new T[10];
+    }
+
+    public DataStore(int length)
+    {
+        store = new T[length];
+    }
+
+    public T this[int index]
+    {
+        get
+        {
+            if (index < 0 &&  index >= store.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+                return store[index];
+        }
+
+        set
+        {
+            if (index < 0 ||  index >= store.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+            store[index] = value;
+        }
+    }
+
+    public int Length
+    {
+        get
+        {
+            return store.Length;
+        }
+    }
+}
+// 上面的泛型索引器可以与任何数据类型一起使用。
+
+// 可以用不同的数据类型重载索引。下面的示例使用int类型索引和string类型索引重载索引器。
+class StringDataStore
+{
+    private string[] strArr = new string[10]; // 内部数据存储
+
+    // 整型索引器
+    public string this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= strArr.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+            return strArr[index];
+        }
+
+        set
+        {
+            if (index < 0 || index >= strArr.Length)
+                throw new IndexOutOfRangeException("Index out of range");
+
+            strArr[index] = value;
+        }
+    }
+
+    // 字符串类型索引器
+    public string this[string name]
+    {
+        get
+        {
+            foreach (string str in strArr){
+                if(str.ToLower() == name.ToLower())        
+                    return str;
+                }
+                    
+            return null;
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        StringDataStore strStore = new StringDataStore();
+
+        strStore[0] = "One";
+        strStore[1] = "Two";
+        strStore[2] = "Three";
+        strStore[3] = "Four";
+        
+        Console.WriteLine(strStore["one"]);
+        Console.WriteLine(strStore["two"]);
+        Console.WriteLine(strStore["Three"]);
+        Console.WriteLine(strStore["Four"]);
+    }
+}

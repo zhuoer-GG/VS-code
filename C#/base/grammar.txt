@@ -1,0 +1,43 @@
+using System;
+// 在任何 C# 程序中的第一条语句都是：
+// using System;
+// using 关键字用于在程序中包含命名空间。一个程序可以包含多个 using 语句。
+namespace RectangleApplication
+{
+    class Rectangle
+    {
+        // 成员变量
+        double length;
+        double width;
+        public void Acceptdetails()
+        {
+            length = 4.5;
+            width = 3.5;
+        }
+        public double GetArea()
+        {
+            return length * width;
+        }
+        public void Display()
+        {
+            Console.WriteLine("Length: {0}", length);
+            Console.WriteLine("Width: {0}", width);
+            Console.WriteLine("Area: {0}", GetArea());
+        }
+    }
+
+    class ExecuteRectangle
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle();
+            r.Acceptdetails();
+            r.Display();
+            Console.ReadLine();
+        }
+    }
+}
+// 关键字是保留字，不能用作名称或标识符。
+// 如果要使用关键字作为标识符，请在关键字前面加上“@”。
+// C#包括各种类别的关键字，例如修饰符关键字，访问修饰符关键字，语句关键字，方法参数关键字等。
+// 上下文关键字可以用作标识符。

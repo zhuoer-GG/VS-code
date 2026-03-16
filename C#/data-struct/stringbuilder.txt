@@ -1,0 +1,55 @@
+// 在C#中，字符串类型是不可变的。这意味着字符串一旦创建就无法更改。
+// 为了解决此问题，C#StringBuilder在System.Text命名空间中引入。
+// StringBuilder不在内存中创建新对象，而是动态扩展内存以容纳修改后的字符串。
+
+// 您可以StringBuilder使用new关键字并传递初始字符串来创建该类的对象。
+using System.Text; //引入
+StringBuilder sb = new StringBuilder(); //稍后将追加字符串
+//或
+StringBuilder sb = new StringBuilder("Hello World!");
+
+// 还可以使用重载构造函数指定StringBuilder对象的最大容量，
+StringBuilder sb = new StringBuilder(50); //稍后将追加字符串
+//或
+StringBuilder sb = new StringBuilder("Hello World!", 50);
+// 还可以使用capacity或length属性设置或检索 StringBuilder 对象的容量。
+
+// StringBuilder不是字符串。使用ToString()方法从StringBuilder对象检索字符串。
+StringBuilder sb = new StringBuilder("Hello World!");
+
+var greet = sb.ToString(); //返回“ Hello World！”"Hello World!"
+
+// 使用 Append () 方法在当前 StringBuilder 对象的末尾追加字符串。
+// 如果 StringBuilder 还没有包含任何字符串，它将添加它。AppendLine ()方法在字符串的末尾附加换行符。
+StringBuilder sb = new StringBuilder();
+sb.Append("Hello ");
+sb.AppendLine("World!");
+sb.AppendLine("Hello C#");
+Console.WriteLine(sb);
+
+// 使用 AppendFormat() 方法将输入字符串格式化为指定的格式，然后追加它。
+StringBuilder sbAmout = new StringBuilder("您的总金额为 ");
+sbAmout.AppendFormat("{0:C} ", 25);
+Console.WriteLine(sbAmout);//输出：您的总金额为$25.00
+
+// 使用 Insert() 方法在StringBuilder对象的指定索引处插入一个字符串。
+StringBuilder sb = new StringBuilder("Hello World!");
+sb.Insert(5," C#");
+Console.WriteLine(sb); //输出：Hello C# World!
+
+// 使用Remove()方法从指定的索引中删除字符串，直到指定的长度。
+StringBuilder sb = new StringBuilder("Hello World!",50);
+sb.Remove(6, 7);
+Console.WriteLine(sb); //输出：你好
+
+// 使用该Replace()方法将所有指定的字符串出现替换为指定的替换字符串。
+StringBuilder sb = new StringBuilder("Hello World!");
+sb.Replace("World", "C#");
+Console.WriteLine(sb);//输出：Hello C#!
+
+// 要记住的要点：
+//     StringBuilder 是可变的。
+//     StringBuilder 追加多个字符串值时，执行速度比 string 快。
+//     当您需要追加三个或四个以上的字符串时，请使用StringBuilder。
+//     使用Append()方法向StringBuilder对象添加或追加字符串。
+//     使用ToString()方法从StringBuilder对象中检索字符串。

@@ -1,0 +1,121 @@
+众所周知，不能为值类型分配空值。例如，int i = null 将抛出编译时错误。
+c# 2.0引入了可空类型，允许你将null赋值给值类型变量。
+您可以使用 Nullable<t> 来声明可空类型，其中 T 是一个类型。
+Nullable<int> i = null;
+
+Nullable 类型是 System.Nullable < t > struct 的实例。
+[Serializable]
+public struct Nullable<T> where T : struct
+{        
+    public bool HasValue { get; }
+      
+    public T Value { get; }
+        
+    // 其他实现
+}
+
+Int 类型的 nullable 与普通 int 类型相同，加上一个标志，表示 int 是否有一个值(是否为 null)。
+其余所有都是编译器魔术，它将“ null”视为有效值。
+static void Main(string[] args)
+{
+    Nullable<int> i = null;
+
+    if (i.HasValue)
+        Console.WriteLine(i.Value); // 或 Console.WriteLine(i)
+    else
+        Console.WriteLine("Null");
+}
+如果对象已分配值，则在返回 true；如果未分配任何值或已分配 null 值，则返回 false。
+如果 NullableType.value 类型为 null 或未分配任何值，则使用 NullableType.value 访问该值将引发运行时异常。
+
+如果不为null，则 使用 GetValueOrDefault() 方法获取实际值；如果为null，则使用默认值。
+static void Main(string[] args)
+{
+    Nullable<int> i = null;
+
+    Console.WriteLine(i.GetValueOrDefault()); 
+}
+
+您可以使用“？” 运算符来简化语法，例如int ?, long？而不是使用Nullable <T>。
+int? i = null;
+double? D = null;
+
+使用 '？？' 运算符，将可为空的类型分配给不可为空的类型。
+示例：?? 可空类型的运算符
+int? i = null;
+int j = i ?? 0;
+Console.WriteLine(j);
+在上面的示例中，i是可为null的int，如果将其分配给不可为null的int j，则如果i为null，它将抛出运行时异常。
+因此，为了降低出现异常的风险，我们使用了“ ??” 运算符，如果i为null，则将0赋给j
+
+
+可空类型的赋值规则与值类型的赋值规则相同。
+如果在函数中将可空类型声明为局部变量，则必须在使用它之前为其赋值。
+如果它是任何类的字段，那么默认情况下它将有一个空值。
+
+在下面的示例中，int类型的nullable是该类的字段，因此不会产生任何错误。
+class MyClass
+{
+    public Nullable<int> i;
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        MyClass mycls = new MyClass();
+
+        if(mycls.i == null)
+            Console.WriteLine("Null");
+    }
+}
+
+Null被认为小于任何值。所以比较运算符不能用于null。看以下示例，其中i既不小于j，也不大于j，也不等于j：
+static void Main(string[] args)
+{
+    int? i = null;
+    int j = 10;
+
+
+    if (i < j)
+        Console.WriteLine("i < j");
+    else if( i > 10)
+        Console.WriteLine("i > j");
+    else if( i == 10)
+        Console.WriteLine("i == j");
+    else
+        Console.WriteLine("无法比较");
+}
+
+
+Nullable静态类是Nullable类型的辅助类。它提供了比较可空类型的比较方法。
+它还具有GetUnderlyingType方法，该方法返回可为null的类型的基础类型参数
+
+示例：Nullable 类 Compare方法
+static void Main(string[] args)
+{
+    int? i = null;
+    int j = 10;
+
+    if (Nullable.Compare<int>(i, j) < 0)
+        Console.WriteLine("i < j");
+    else if (Nullable.Compare<int>(i, j) > 0)
+        Console.WriteLine("i > j");
+    else
+        Console.WriteLine("i = j");
+}
+//输出：i < j
+
+
+可空类型的特性
+    可空类型只能与值类型一起使用。
+    如果 Value 为 null，则 Value 属性将抛出 InvalidOperationException; 否则将返回值。
+    如果变量包含值，则HasValue属性返回true；如果为null，则返回false。
+    只能将 == 和！= 运算符与可为空的类型一起使用。对于其他比较，请使用Nullable静态类。
+    不允许使用嵌套的可空类型。Nullable <Nullable <int >> i; 将给出编译时错误。
+
+要记住的要点
+    Nullable <T>类型允许将null分配给值类型。
+    ?运算符是Nullable类型的简写语法。
+    使用value属性获取可空类型的值。
+    使用HasValue属性检查是否将值分配给可空类型。
+    静态 Nullable 类是一个帮助器类，用于比较可空类型。

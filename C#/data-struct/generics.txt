@@ -1,0 +1,97 @@
+// 泛型是指一般形式，而不是特定形式。在C#中，泛型意味着不特定于特定数据类型。
+// C#允许您使用 type 参数并且不使用特定数据类型来定义泛型类，接口，抽象类，字段，方法，静态方法，属性，事件，委托和运算符。
+// 类型参数是在创建泛型类型的实例时指定的特定类型的占位符。
+// 通过在类型名称后的尖括号中指定类型参数来声明泛型，例如 TypeName<T>，这里 T 是类型参数。
+
+// 泛型类是在类名称后的尖括号中使用类型参数定义的。
+class DataStore<T>
+{
+    public T Data { get; set; }
+}
+class KeyValuePair<TKey, TValue>//建议根据要求使用更可读的类型参数名称，如TSession、TKey、TValue等
+{
+    public TKey Key { get; set; }
+    public TValue Value { get; set; }
+}
+
+// 您可以通过在尖括号中指定实际类型来创建泛型类的实例。下面创建泛型类的实例DataStore。
+// DataStore<string> store = new DataStore<string>();
+// 上面，我们string在创建实例时在尖括号中指定了类型。
+// 因此，T将在编译时将其替换为在整个类中使用的string任何类型T。因此，Data属性的类型为string。
+
+// 您可以为不同的对象指定不同的数据类型，如下所示。
+namespace My_Generic
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            DataStore<string> strStore = new DataStore<string>();
+            strStore.Data = "Hello World!";
+            //strStore.Data = 123; // 编译时错误
+
+            DataStore<int> intStore = new DataStore<int>();
+            intStore.Data = 100;
+            //intStore.Data = "Hello World!"; // 编译时错误
+
+            KeyValuePair<int, string> kvp1 = new KeyValuePair<int, string>();
+            kvp1.Key = 100;
+            kvp1.Value = "Hundred";
+
+            KeyValuePair<string, string> kvp2 = new KeyValuePair<string, string>();
+            kvp2.Key = "IT";
+            kvp2.Value = "Information Technology";
+        }
+    }
+}
+
+// 泛型类可以包含泛型字段。但是，无法初始化。
+class DataStore<T>
+{
+    public T data;
+}
+// 下面声明一个泛型数组。
+class DataStore<T>
+{
+    public T[] data = new T[10];
+}
+
+// 用类型参数声明其返回类型或参数的方法称为泛型方法。
+class DataStore<T>
+{
+    private T[] _data = new T[10];
+    
+    public void AddOrUpdate(int index, T item)
+    {
+        if(index >= 0 && index < 10)
+            _data[index] = item;
+    }
+
+    public T GetData(int index)
+    {
+        if(index >= 0 && index < 10)
+            return _data[index];
+        else 
+            return default(T);
+    }
+}
+
+// 上面的 AddorUpdate() 和 GetData() 方法是泛型方法。
+// item参数的实际数据类型将在实例化 DataStore<T> 类时指定，如下所示。
+// DataStore<string> cities = new DataStore<string>();
+// cities.AddOrUpdate(0, "Mumbai");
+// cities.AddOrUpdate(1, "Chicago");
+// cities.AddOrUpdate(2, "London");
+
+// DataStore<int> empIds = new DataStore<int>();
+// empIds.AddOrUpdate(0, 50);
+// empIds.AddOrUpdate(1, 65);
+// empIds.AddOrUpdate(2, 89);
+
+// 泛型参数类型可以与带有或不带有非泛型参数和返回类型的多个参数一起使用。
+// 通过在尖括号中使用方法名称指定类型参数，非泛型类可以包含泛型方法
+
+// 泛型的优势
+//     泛型提高了代码的复用性。您无需编写代码来处理不同的数据类型。
+//     泛型是类型安全的。如果尝试使用与定义中指定的数据类型不同的数据类型，则会出现编译时错误。
+//     泛型具有性能优势，因为它消除了装箱和拆箱的可能性。

@@ -1,0 +1,37 @@
+string stringVar = "Hello World!!";
+int intVar = 100;
+float floatVar = 10.2f;
+char charVar = 'A';
+bool boolVar = true;
+
+// C#主要将数据类型分为两种：值类型和引用类型。
+// 值类型包括简单类型（例如int，float，bool和char），枚举类型，结构类型和Nullable值类型。
+// 引用类型包括类类型，接口类型，委托类型和数组类型。
+
+// 无符号整数，long，float，double和decimal类型的值必须分别以u，l，f，d和m为后缀。
+// 示例：值后缀
+uint ui = 100u;
+float fl = 10.2f;
+long l = 45755452222222l;
+ulong ul = 45755452222222ul;
+double d = 11452222.555d;
+decimal mon = 1000.15m;
+
+// 预定义的数据类型为其.NET类型（CLR类）名称的别名。下表列出了预定义数据类型的别名和相关的.NET类名称。
+// 别名	    .NET类型	       类型
+// byte	    System.Byte	    struct
+// sbyte	System.SByte	struct
+// int	    System.Int32	struct
+// uint	    System.UInt32	struct
+// short	System.Int16	struct
+// ushort	System.UInt16	struct
+// long	    System.Int64	struct
+// ulong	System.UInt64	struct
+// float	System.Single	struct
+// double	System.Double	struct
+// char	    System.Char	    struct
+// bool	    System.Boolean	struct
+// object	System.Object	Class
+// string	System.String	Class
+// decimal	System.Decimal	struct
+// DateTime	System.DateTime	struct

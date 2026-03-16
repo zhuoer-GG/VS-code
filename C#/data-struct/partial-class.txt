@@ -1,0 +1,79 @@
+// 在C#中，可以使用 partial 关键字拆分多个.cs文件中的类、结构、方法或接口的实现。
+// 编译程序时，编译器将合并来自多个.cs文件的所有实现。
+
+// 示例：EmployeeProps.cs
+
+public partial class Employee
+{
+    public int EmpId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+}
+
+// 示例：EmployeeMethods.cs
+
+public partial class MyPartialClass
+{
+    public Employee(int Id, string name)
+    {
+        this.EmpId = Id;
+        this.Name = name;
+    }
+
+    public void DisplayEmployeeInfo()
+    {
+        Console.WriteLine(this.EmpId + " " + this.FirstName + " " + this.LastName);
+    }
+
+    public void Save(int id, string firstName, string lastName)
+    {
+        Console.WriteLine("Saved!");
+    }
+}
+
+// 上面，EmployeeProps.cs包含Employee类的属性，而employeememethods .cs包含Employee类的所有方法。
+// 这些类将被编译为一个Employee类。
+
+// 分部类规则
+//     所有分部类定义必须位于同一程序集和命名空间中。
+//     所有分部都必须具有相同的可访问性，例如公共或私有等。
+//     如果任何分部声明为抽象、密封或基类型，那么整个类声明为相同的类型。
+//     不同的分部可以具有不同的基本类型，因此最终类将继承所有基本类型。
+//     Partial修饰符只能出现在关键字class，struct 或 interface之前。
+//     允许嵌套分部类型。
+
+// 分部类或结构可以包含一个方法，该方法可以拆分为分部类或结构的两个单独的.cs文件。
+// 两个.cs文件中的一个必须包含方法的签名，其他文件可以包含分部方法的可选实现。方法的声明和实现都必须具有partial 关键字。
+// 示例：EmployeeProps.cs
+
+public partial class Employee
+{
+    public int EmpId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+
+    partial void GenerateEmployeeId();
+
+}
+
+// 示例：EmployeeMethods.cs
+
+public partial class MyPartialClass
+{
+    partial void GenerateEmployeeId()
+    {
+        this.EmpId = random();
+    }
+}
+
+// 上面， employeeprops.cs 文件包含 DisplayEmployeeInfo 方法的签名， employeemethods.cs 文件包含它的实现。
+// 编译器将在编译时将所有分部合并为一个。
+
+// 分部方法规则
+//     分部方法必须使用partial关键字，并且必须返回void。
+//     分部方法可以有in 或 ref没有out参数。
+//     分部方法是隐式私有方法，因此不能是虚方法。
+//     分部方法可以是静态方法。
+//     分部方法可以是泛型方法。

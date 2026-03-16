@@ -1,0 +1,52 @@
+C#4.0（.NET 4.5）引入了一个名为 dynamic 的新类型，它避免了编译时类型检查。
+dynamic 类型在编译时跳过类型检查；相反，它在运行时解析类型。
+在大多数情况下，编译器会将动态类型编译为对象类型。但是，动态类型变量的实际类型将在运行时解析。
+
+dynamic 类型会在运行时根据分配的值更改类型。以下示例显示了动态变量如何根据分配的值更改类型。
+示例：动态
+{
+    dynamic MyDynamicVar = 100;
+    Console.WriteLine("Value: {0}, Type: {1}", MyDynamicVar, MyDynamicVar.GetType());
+
+    MyDynamicVar = "Hello World!!";
+    Console.WriteLine("Value: {0}, Type: {1}", MyDynamicVar, MyDynamicVar.GetType());
+
+    MyDynamicVar = true;
+    Console.WriteLine("Value: {0}, Type: {1}", MyDynamicVar, MyDynamicVar.GetType());
+
+    MyDynamicVar = DateTime.Now;
+    Console.WriteLine("Value: {0}, Type: {1}", MyDynamicVar, MyDynamicVar.GetType());
+}
+
+输出：
+值：100，类型：System.Int32
+值：Hello World !!，类型：System.String
+值：True，类型：System.Boolean
+值：01-01-2014，类型：System.DateTime
+
+
+如果将类对象分配给动态类型，则编译器将不会检查保存自定义类对象的动态类型的正确方法和属性名称。看下面的实例。
+示例：调用方法  
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        dynamic stud = new Student();
+
+        stud.DisplayStudentInfo(1, "Bill");// 运行时错误，没有编译时错误
+        stud.DisplayStudentInfo("1");// 运行时错误，没有编译时错误
+        stud.FakeMethod();// 运行时错误，没有编译时错误
+    }
+}
+
+public class Student
+{
+    public void DisplayStudentInfo(int id)
+    {
+    }
+}
+
+在上面的示例中，C#编译器不检查参数，参数类型 或 根本不存在。
+它在运行时验证这些内容，如果无效，则抛出运行时异常。
+请注意，动态类型不支持Visual Studio IntelliSense。

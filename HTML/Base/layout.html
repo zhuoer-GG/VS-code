@@ -1,0 +1,70 @@
+合理的页面布局非常重要，不仅决定了页面是否美观,更是会影响到用户的体验；不好的页面布局，用户体验会很差，也很难留住用户。
+HTML布局的实现方式
+
+1、可以利用Html table表格的方式，构建页面的布局，再进行内容的填充。
+2、使用div，配合float或者flex对页面进行布局
+
+简单的table布局示例
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表格</title>
+</head>
+<body>
+  <table border="1" cellspacing="1" cellpadding="1" align="center">
+      <tr>
+          <td colspan="2" align="center"  style="background: #0395e1">顶部导航</td>
+      </tr>
+      <tr>
+          <td style="background: #f25807" align="center" height="300px" width="100px">
+              内<br>容<br>&nbsp;<br>侧<br>栏
+          </td>
+          <td style="background: red" align="center" width="400px">
+              主要内容
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2" style="background: darkorchid" align="center">底部</td>
+      </tr>
+  </table>
+</body>
+</html>
+
+HTML 布局 - 使用<div> 元素
+div 元素是用于分组 HTML 元素的块级元素。
+下面的示例使用五个 div 元素来创建多列布局：
+
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>基础教程(cainiaoplus.com)</title> 
+</head>
+<body>
+ 
+<div id="container" style="width:520px">
+ 
+<div id="header" style="background-color:#FFA300;">
+<h1 style="margin-bottom:0;">主要的网页H1标题</h1></div>
+ 
+<div id="menu" style="background-color:#FF9a00;height:200px;width:120px;float:left;">
+<b>菜单</b><br>
+HTML<br>
+CSS<br>
+JavaScript</div>
+ 
+<div id="content" style="background-color:#dddddd;height:200px;width:400px;float:left;">
+内容在这里</div>
+ 
+<div id="footer" style="background-color:#FFA300;clear:both;text-align:center;">
+版权 © 基础教程(cainiaoplus.com)</div>
+ 
+</div>
+ 
+</body>
+</html>
+
+HTML 布局 - 必不可少的CSS
+使用 CSS 最大的好处是，如果把 CSS 代码存放到外部样式表中，那么站点会更易于维护、定义风格的灵活性。
+通过修改css样式表文件，就可以改变所有页面的布局。

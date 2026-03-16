@@ -1,0 +1,55 @@
+CSS (Cascading Style Sheets) 用于渲染HTML元素标签的样式.
+CSS 是在 HTML 4 开始使用的,是为了更好的渲染HTML元素而引入的.
+CSS 可以通过以下方式添加到HTML中:
+    内联样式- 在HTML元素中使用"style" 属性
+    内部样式表 -在HTML文档头部 head 区域使用style 元素 来包含CSS
+    外部引用 - 使用外部 CSS 文件
+最好的方式是通过外部引用CSS文件.
+
+当特殊的样式需要应用到个别元素时，就可以使用内联样式。 使用内联样式的方法是在相关的标签中使用样式属性。
+样式属性可以包含任何 CSS 属性。以下示例显示出如何改变段落的颜色和左外边距。
+<p style="color:blue;margin-left:20px;">这是一个段落。</p>
+
+<!-- 背景色属性（background-color）定义一个元素的背景颜色： -->
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>基础教程(cainiaoplus.com)</title> 
+</head>
+<body style="background-color:yellow;">
+<h2 style="background-color:red;">这是一个标题</h2>
+<p style="background-color:green;">这是一个段落。</p>
+</body>
+</html>
+
+早期背景色属性（background-color）是使用 bgcolor 属性定义。
+现在通常使用font-family（字体），color（颜色），和font-size（字体大小）属性来定义文本样式，而不是使用<font>标签。
+
+<!-- 使用 text-align（文字对齐）属性指定文本的水平与垂直对齐方式： -->
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>基础教程(cainiaoplus.com)</title> 
+</head>
+<body>
+
+<h1 style="text-align:center;">居中对齐的标题</h1>
+<p>这是一个段落。</p>
+
+</body>
+</html>
+
+<!-- 当单个文件需要特别样式时，就可以使用内部样式表。你可以在<head>  部分通过 <style>标签定义内部样式表 -->
+<head>
+<style type="text/css">
+body {background-color:yellow;}
+p {color:blue;}
+</style>
+</head>
+
+<!-- 当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。 -->
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>

@@ -1,0 +1,55 @@
+// C#7.0（.NET Framework 4.7）引入了 ValueTuple 结构，它是元组的值类型表示。
+// ValueTuple仅在.NET Framework 4.7中可用。
+// 如果您在项目中没有看到ValueTuple，则需要安装ValueTuple。
+// （.NET Framework 4.7或更高版本，或.NET Standard Library 2.0或更高版本已包含ValueTuple。）
+
+// 创建和初始化 ValueTuple 很容易。可以使用括号()并在其中指定值来创建和初始化它
+var person = (1, "Steve", "Jobs");
+// 上面的代码创建并初始化了一个包含三元素的 ValueTuple。编译器根据值的类型自动推断每个元素的类型。
+// 也可以通过指定各元素的类型初始化 ValueTuple ，如下所示。
+ValueTuple<int, string, string> person = (1, "Bill", "Gates");
+// 以下是为每个成员声明类型的简写方法。
+(int, string, string) person = (1, "Bill", "Gates");
+
+// 元组至少需要两个值。
+// 与 Tuple 不同，ValueTuple 可以包含八个以上的值。
+var numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// 们可以为ValueTuple属性分配名称，而不是使用默认属性名称，例如Item1，Item2等。
+
+(int Id, string FirstName, string LastName) person = (1, "Bill", "Gates");
+person.Id;   // 返回1
+person.FirstName;  // 返回 "Bill"
+person.LastName; // 返回 "Gates"
+
+// 我们还可以在右侧为成员名称分配值，如下所示。
+
+var person = (Id:1, FirstName:"Bill", LastName: "Gates");
+
+// 请注意，我们可以在左侧或右侧提供成员名称，但不能在两侧提供成员名称。左侧优先于右侧。
+
+
+// ValueTuple作为返回类型
+// 以下方法返回ValueTuple。
+
+static void Main(string[] args)
+{
+    DisplayTuple(1, "Bill", "Gates");
+}
+
+static void DisplayTuple((int, string, string) person)
+{
+    Console.WriteLine($"Id = { person.Item1}");
+    Console.WriteLine($"First Name = { person.Item2}");
+    Console.WriteLine($"Last Name = { person.Item3}");
+}
+
+// 我们还可以为方法返回的 ValueTuple 指定不同的成员名称。
+
+static void Main(string[] args)
+{    var person = GetPerson();
+}
+
+static (int, string, string) GetPerson() 
+{    return (Id:1, FirstName: "Bill", LastName: "Gates");
+}

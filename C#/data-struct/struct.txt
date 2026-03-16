@@ -1,0 +1,88 @@
+在C#中，struct是表示数据结构的值类型数据类型。 它可以包含参数化构造函数、静态构造函数、常量、字段、方法、属性、索引器、运算符、事件和嵌套类型。
+struct 可以用于保存不需要继承的小数据值，例如坐标点，键值对和复杂的数据结构。
+
+如果声明一个 struct 类型的变量而不使用 new 关键字，则它不调用任何构造函数，因此所有成员都保持未赋值状态。
+因此，在访问每个成员之前，必须为它们分配值，否则会产生编译时错误。
+
+结构(struct)不能包含无参数构造函数。它只能包含参数化构造函数或静态构造函数。
+示例：Struct中的参数化构造函数
+struct Coordinate
+{
+    public int x;
+    public int y;
+
+    public Coordinate(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+Coordinate point = new Coordinate(10, 20);
+
+Console.WriteLine(point.x); //输出：10  
+Console.WriteLine(point.y); //输出：20
+
+struct(结构)可以包含属性、自动实现的属性、方法等，与类相同
+
+
+结构可以包含事件通知订阅者有关某些操作。 下面的结构体(struct)包含一个事件。
+
+struct Coordinate
+{
+    private int _x, _y;
+
+    public int x 
+    {
+        get{
+            return _x;
+        }
+
+        set{
+            _x = value;
+            CoordinatesChanged(_x);
+        }
+    }
+
+    public int y
+    {
+        get{
+            return _y;
+        }
+
+        set{
+            _y = value;
+            CoordinatesChanged(_y);
+        }
+    }
+
+    public event Action<int> CoordinatesChanged;
+}
+
+上面的结构包含coordinateChanged事件，当 x 或 y 坐标发生变化时将引发该事件。
+下面的示例演示如何处理CoordinateChanged事件。
+
+class Program
+{
+    static void Main(string[] args)
+    {
+
+        Coordinate point = new Coordinate();
+        
+        point.CoordinatesChanged += StructEventHandler;
+        point.x = 10;
+        point.y = 20;
+    }
+
+    static void StructEventHandler(int point)
+    {
+        Console.WriteLine("坐标更改为 {0}", point);
+    }
+}
+
+总结
+    struct 可以包括构造函数，常量，字段，方法，属性，索引器，运算符，事件和嵌套类型。
+    struct 不能包含无参数构造函数或析构函数。
+    struct 可以实现与类相同的接口。
+    struct 不能继承另一个结构或类，也不能作为一个类的基类。
+    struct 不能将成员指定为抽象成员，密封成员，虚拟成员或受保护成员

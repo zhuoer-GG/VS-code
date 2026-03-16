@@ -1,0 +1,160 @@
+顾名思义，匿名方法是没有名称的方法。
+可以使用委托(delegate)关键字定义C＃中的匿名方法，并且可以将其分配给委托(delegate)类型的变量。
+在匿名方法中您不需要指定返回类型，它是从方法主体内的 return 语句推断的
+public delegate void Print(int value);
+
+static void Main(string[] args)
+{
+    Print print = delegate(int val) { 
+        Console.WriteLine("匿名方法内部。值: {0}", val); 
+    };
+
+    print(100);
+}
+
+匿名方法可以访问外部函数中定义的变量。
+static void Main(string[] args)
+{
+    int i = 10;
+    
+    Print prnt = delegate(int val) {
+        val += i;
+        Console.WriteLine("匿名方法: {0}", val); 
+    };
+
+    prnt(100);
+}
+
+也可以将匿名方法传递给接受委托作为参数的方法。
+在下面的示例中，PrintHelperMethod()采用Print委托的第一个参数
+class Program
+{
+    public static void PrintHelperMethod(Print printDel,int val)
+    { 
+        val += 10;
+        printDel(val);
+    }
+
+    static void Main(string[] args)
+    {
+        PrintHelperMethod(delegate(int val) { Console.WriteLine("匿名方法: {0}", val); }, 100);
+    }
+}
+
+
+匿名方法可用作事件处理程序
+saveButton.Click += delegate(Object o, EventArgs e)
+{ 
+    System.Windows.Forms.MessageBox.Show("Save Successfully!"); 
+};
+
+匿名方法的局限性
+    它不能包含跳转语句，如goto，break或continue。
+    它不能访问外部方法的ref 或 out参数。
+    它不能拥有或访问不安全的代码。
+    不能在is运算符的左侧使用。
+
+C# Lambda 表达式详解：从匿名方法到简洁语法
+
+Lambda 表达式的核心是用 **=>**（读作 “goes to”）连接 “参数列表” 和 “表达式 / 代码块”
+表达式 Lambda	(参数列表) => 表达式	    逻辑仅一行，返回值为表达式结果
+语句 Lambda	    (参数列表) => { 语句块; }	逻辑多行（需显式return，分号结尾）
+
+Lambda 表达式支持多种语法简化，核心原则是 “能省则省”，编译器会自动推断缺失的信息：
+参数类型可省：若编译器能从委托类型推断参数类型，可省略类型（如(int val) => ...简化为(val) => ...）。
+单个参数可省括号：若只有一个参数且省略了类型，可去掉参数括号（如(val) => ...简化为val => ...）。
+无参数需保留空括号：若没有参数，必须用() => ...表示。
+返回值可省return：表达式 Lambda 直接返回表达式结果，无需return（语句 Lambda 多行时需显式return）。
+
+Lambda 表达式写法（逐步简化）
+public delegate void Print(int value);
+static void Main(string[] args)
+{
+    // 1. 完整语法（保留参数类型和括号）
+    Print print1 = (int val) => { Console.WriteLine("Lambda 1: {0}", val); };
+    
+    // 2. 简化1：省略参数类型（编译器从委托推断）
+    Print print2 = (val) => { Console.WriteLine("Lambda 2: {0}", val); };
+    
+    // 3. 简化2：单个参数省略括号（最常用）
+    Print print3 = val => { Console.WriteLine("Lambda 3: {0}", val); };
+    
+    // 4. 若逻辑仅一行，可省略大括号（语句Lambda→表达式Lambda的简化）
+    Print print4 = val => Console.WriteLine("Lambda 4: {0}", val);
+
+    // 调用结果一致
+    print4(100); // 输出：Lambda 4: 100
+}
+与匿名方法一样，Lambda 表达式也支持闭包—— 即访问定义它的外部函数中的变量
+（注意：外部变量会被 “捕获”，生命周期延长至 Lambda 执行时）
+static void Main(string[] args)
+{
+    int i = 10;
+    
+    Print prnt = val => {
+        val += i;
+        Console.WriteLine("Lambda: {0}", val); 
+    };
+    prnt(100); // 输出：Lambda: 110
+}
+
+当方法接收委托类型参数时，Lambda 表达式可直接作为实参传递，比匿名方法更简洁
+static void Main(string[] args)
+{
+    // Lambda直接作为参数（省略委托变量，一步到位）
+    PrintHelperMethod(val => Console.WriteLine("Lambda: {0}", val), 100); 
+    // 输出：Lambda: 110
+}
+
+Lambda 表达式是事件绑定的常用方式，语法比匿名方法更紧凑，尤其适合简单的事件响应逻辑
+// Lambda绑定事件（可省略参数类型，甚至参数名）
+saveButton.Click += (o, e) => System.Windows.Forms.MessageBox.Show("Save Successfully!");
+
+// 若需多行逻辑，用大括号包裹
+saveButton.Click += (o, e) => {
+    Console.WriteLine("保存中...");
+    System.Windows.Forms.MessageBox.Show("Save Successfully!");
+};
+
+
+C# 提供了 3 个内置泛型委托（Func、Action、Predicate），专门配合 Lambda 表达式使用，
+避免了手动定义委托的麻烦，这也是 Lambda 比匿名方法更灵活的核心原因之一
+
+内置泛型委托介绍
+Action<T>	    无返回值，可带 0~16 个参数	                    Action（无参）、Action<int, string>（两参）
+Func<TResult>	有返回值，可带 0~16 个参数（最后一个是返回类型）	Func<int>（无参返回 int）、Func<int, string>（int 参数返回 string）
+Predicate<T>	返回bool，仅 1 个参数（用于 “判断” 场景）	      Predicate<string>（判断 string 是否满足条件）
+
+匿名方法需先定义带返回值的委托，而 Lambda 可直接配合Func使用：
+static void Main(string[] args)
+{
+    // 需求：计算两个数的和（带返回值）
+    // 匿名方法：需先定义委托
+    public delegate int Calculate(int a, int b);
+    Calculate addAnon = delegate(int a, int b) { return a + b; };
+    
+    // Lambda + Func（无需自定义委托）
+    Func<int, int, int> addLambda = (a, b) => a + b; // 表达式Lambda直接返回结果
+
+    Console.WriteLine(addAnon(2, 3));  // 输出：5
+    Console.WriteLine(addLambda(2, 3));// 输出：5
+}
+
+用Predicate实现条件判断
+static void Main(string[] args)
+{
+    string[] names = { "张三", "李四", "王五", "赵六" };
+    
+    // 需求：查找长度为2的名字
+    // Lambda + Predicate
+    Predicate<string> isShortName = name => name.Length == 2;
+    
+    // 配合Array.Find使用
+    string result = Array.Find(names, isShortName);
+    Console.WriteLine(result); // 输出：张三
+}
+
+
+Lambda 表达式不是对匿名方法的替代，而是优化与升级：它继承了匿名方法 “无名称、可绑定委托、支持闭包” 的核心能力，
+同时通过简洁语法、类型推断和 LINQ 兼容性，成为 C# 现代开发（尤其是数据处理、异步编程）的核心工具。
+记住核心口诀：“参数列表 => 逻辑体”，配合Func/Action泛型委托，即可灵活应对绝大多数场景

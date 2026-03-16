@@ -1,0 +1,33 @@
+// 在C#中，匿名类型是没有任何名称的类型（类），该名称只能包含公共只读属性。它不能包含其他成员，例如字段，方法，事件等。
+
+// 使用带有对象初始化器语法的 new 运算符创建匿名类型。隐式类型变量 var 用于保存匿名类型的引用。
+// 匿名类型的属性是只读的，不能使用null，匿名函数或指针类型进行初始化。可以使用点(.)表示法访问这些属性，与对象属性相同。
+// 但是，您不能更改属性的值，因为它们是只读的。
+
+// 示例：访问匿名类型
+var student = new { Id = 1, FirstName = "James", LastName = "Bond" };
+Console.WriteLine(student.Id); //输出1
+Console.WriteLine(student.FirstName); //输出：James
+Console.WriteLine(student.LastName); //输出：Bond
+
+student.Id = 2;//错误：无法更改值
+student.FirstName = "Steve";//错误：无法更改值
+
+// 示例：嵌套匿名类型
+var student = new { 
+                    Id = 1, 
+                    FirstName = "James", 
+                    LastName = "Bond",
+                    Address = new { Id = 1, City = "London", Country = "UK" }
+                };
+
+// 示例：匿名类型数组
+var students = new[] {
+            new { Id = 1, FirstName = "James", LastName = "Bond" },
+            new { Id = 2, FirstName = "Steve", LastName = "Jobs" },
+            new { Id = 3, FirstName = "Bill", LastName = "Gates" }
+    };
+
+// 匿名类型对于定义它的方法始终是本地的。无法从方法返回。
+// 但是，匿名类型可以作为对象类型参数传递给方法，但不建议这样做。
+// 如果需要将其传递给另一个方法，请使用 struct 或 class 而不是匿名类型。

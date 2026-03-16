@@ -1,0 +1,44 @@
+// C#3.0引入了var关键字来声明方法级变量，而无需显式指定数据类型。  
+
+// 示例：隐式类型的局部变量
+var j = 100; // 隐式类型的局部变量
+
+// 编译器将从=运算符右侧的表达式中推断出变量的类型。上面，var将编译为int。
+// var可用于声明任何内置数据类型，用户定义类型或匿名类型变量。
+
+// 隐式类型的变量必须在声明时进行初始化；否则，C#编译器会给出错误：必须初始化隐式类型的变量。
+var i; // 编译时错误：必须初始化隐式类型的变量
+i = 100;
+
+// var不允许在单个语句中多次声明变量。
+var i = 100, j = 200, k = 300; // 错误：无法在单个语句中声明var变量//以下内容也有效var i = 100; 
+var j = 200; 
+var k = 300;
+
+// var 不能用于函数参数。
+void Display(var param) //编译时错误
+{
+    Console.Write(param);
+}
+
+// var 可以在for和foreach循环中使用。
+for(var i = 0; i < 10; i++)
+{    Console.WriteLine(i);
+}
+
+// var 也可以与LINQ查询一起使用。
+// 示例：C#中的LINQ查询语法
+
+// 字符串集合
+IList<string> stringList = new List<string>() { 
+    "C# Tutorials",
+    "VB.NET Tutorials",
+    "Learn C++",
+    "MVC Tutorials" ,
+    "Java" 
+};
+
+// LINQ查询语法
+var result = from s in stringList
+            where s.Contains("Tutorials") 
+            select s;
